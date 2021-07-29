@@ -1,0 +1,47 @@
+class Solution {
+public:
+    int search(vector<int>& arr, int target) {
+        int l = 0 , n = arr.size(),i ;
+        int h = arr.size() - 1;
+        int targetIndex , targetIndex1,targetIndex2;
+        int mid = l + (h - l)/2;
+        if(arr[mid] == target) return mid;
+        if(n == 1) {
+            if (arr[0] == target)
+                return 0;
+            else return -1;
+        }
+        // First find non ascending element which is our pivot point where array rotated
+        for( i = n-2 ; i >= 0 ; i--){
+            if (arr[i] > arr[i+1])
+                break;
+        }
+     int h1 = i;   
+     if ( i < 0){
+         targetIndex = binarySearch(arr,l,h,target);
+         return targetIndex;
+     }
+        else {
+            targetIndex1 = binarySearch(arr,l,i,target);
+            if (targetIndex1 == -1){
+                targetIndex2 = binarySearch(arr,i+1,h,target);
+                return targetIndex2;
+            }
+            return targetIndex1;
+        }
+    
+    }
+    int binarySearch(vector<int> &arr , int l ,int h , int x){
+        if(l > h )
+            return -1;
+        int mid = l + (h-l)/2;
+        if(arr[mid] == x)
+            return mid;
+        if(arr[mid] > x)
+            return binarySearch(arr,l,mid-1,x);
+        else {
+            return binarySearch(arr,mid+1,h,x);
+        }
+    }
+    
+};
